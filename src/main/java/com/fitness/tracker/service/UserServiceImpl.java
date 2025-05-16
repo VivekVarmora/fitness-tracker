@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fitness.tracker.dto.UserDTO;
+import com.fitness.tracker.exception.DuplicateResourceException;
 import com.fitness.tracker.exception.ResourceNotFoundException;
 import com.fitness.tracker.mapper.UserMapper;
+import com.fitness.tracker.model.User;
 import com.fitness.tracker.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -60,13 +62,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserDTO updateUser(Long id, UserDTO userDetails) {
 		LOG.debug("Updating user with ID: {}", id);
-		var user = userRepository.findById(id).orElseThrow(() -> {
-			LOG.error("User with ID {} not found for update", id);
-			return new ResourceNotFoundException("User not found");
-		});
+
+		var user = findUserById(id);
+		checkIfUsernameTaken(userDetails.getUsername(), id);
 
 		user.setUsername(userDetails.getUsername());
-		user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+		user.setPassword(encodePassword(userDetails.getPassword()));
 		user.setEmail(userDetails.getEmail());
 
 		var updatedUser = userRepository.save(user);
@@ -83,5 +84,24 @@ public class UserServiceImpl implements IUserService {
 		}
 		userRepository.deleteById(id);
 		LOG.info("User with ID {} deleted successfully", id);
+	}
+
+	private User findUserById(Long id) {
+		return userRepository.findById(id).orElseThrow(() -> {
+			LOG.error("User with ID {} not found", id);
+			return new ResourceNotFoundException("User with ID " + id + " not found");
+		});
+	}
+
+	private void checkIfUsernameTaken(String username, Long currentUserId) {
+		var existingUser = userRepository.findByUsername(username);
+		if (existingUser != null && !existingUser.getId().equals(currentUserId)) {
+			LOG.error("Username '{}' is already taken", username);
+			throw new DuplicateResourceException("Username '" + username + "' is already taken");
+		}
+	}
+
+	private String encodePassword(String password) {
+		return passwordEncoder.encode(password);
 	}
 }

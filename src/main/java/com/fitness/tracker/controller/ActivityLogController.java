@@ -36,7 +36,8 @@ public class ActivityLogController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Log a new activity")
 	public ActivityLogDTO logActivity(@Valid @RequestBody ActivityLogDTO activityLog) {
-		LOG.info("Received request to log activity: {}", activityLog);
+		LOG.info("Creating activity log for workoutPlanId={}, activityType={}", activityLog.getWorkoutPlanId(),
+				activityLog.getActivity());
 		return activityLogService.logActivity(activityLog);
 	}
 

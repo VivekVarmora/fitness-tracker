@@ -36,7 +36,7 @@ public class WorkoutPlanController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Create a new workout plan")
 	public WorkoutPlanDTO createWorkoutPlan(@Valid @RequestBody WorkoutPlanDTO workoutPlan) {
-		LOG.debug("Request received to create workout plan: {}", workoutPlan);
+		LOG.debug("Creating workout plan for userId: {}, name: {}", workoutPlan.getUserId(), workoutPlan.getName());
 		return workoutPlanService.createWorkoutPlan(workoutPlan);
 	}
 

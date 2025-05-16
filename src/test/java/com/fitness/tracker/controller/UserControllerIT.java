@@ -21,7 +21,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fitness.tracker.dto.UserDTO;
 import com.fitness.tracker.model.User;
 import com.fitness.tracker.model.User.Role;
 import com.fitness.tracker.repository.UserRepository;
@@ -47,16 +46,16 @@ public class UserControllerIT {
 
 	@Test
 	public void testCreateUser() throws Exception {
-		var userDTO = new UserDTO();
-		userDTO.setUsername("testuser");
-		userDTO.setPassword("password123");
-		userDTO.setEmail("test@example.com");
-		userDTO.setRole(Role.ADMIN);
+		var userNode = objectMapper.createObjectNode();
+		userNode.put("username", "testuser");
+		userNode.put("password", "password123");
+		userNode.put("email", "test@example.com");
+		userNode.put("role", "ADMIN");
 
-		mockMvc.perform(post("/fitness/users").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(userDTO))).andExpect(status().isCreated())
-				.andExpect(jsonPath("$.username", is("testuser")))
+		mockMvc.perform(post("/fitness/users").contentType(MediaType.APPLICATION_JSON).content(userNode.toString()))
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.username", is("testuser")))
 				.andExpect(jsonPath("$.email", is("test@example.com"))).andExpect(jsonPath("$.role", is("ADMIN")));
+
 	}
 
 	@Test
@@ -84,14 +83,14 @@ public class UserControllerIT {
 	public void testUpdateUser() throws Exception {
 		var savedUser = createTestUser("oldusername", "old@example.com", Role.USER);
 
-		var updateDTO = new UserDTO();
-		updateDTO.setUsername("newusername");
-		updateDTO.setPassword("newpassword");
-		updateDTO.setEmail("new@example.com");
-		updateDTO.setRole(Role.USER);
+		var userNode = objectMapper.createObjectNode();
+		userNode.put("username", "newusername");
+		userNode.put("password", "newpassword");
+		userNode.put("email", "new@example.com");
+		userNode.put("role", "USER");
 
 		mockMvc.perform(put("/fitness/users/{id}", savedUser.getId()).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(updateDTO))).andExpect(status().isOk())
+				.content(userNode.toString())).andExpect(status().isOk())
 				.andExpect(jsonPath("$.username", is("newusername")))
 				.andExpect(jsonPath("$.email", is("new@example.com")));
 	}
