@@ -64,7 +64,7 @@ class UserServiceTestImplTest {
 		when(userRepository.save(any(User.class))).thenReturn(userEntity);
 		when(userMapper.toDTO(userEntity)).thenReturn(userDTO);
 
-		UserDTO result = userService.createUser(userDTO);
+		var result = userService.createUser(userDTO);
 
 		assertEquals(userDTO, result);
 		verify(userRepository).save(userEntity);
@@ -80,34 +80,33 @@ class UserServiceTestImplTest {
 
 		when(userRepository.findByUsername("john")).thenReturn(new User());
 
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> userService.createUser(userDTO));
+		var ex = assertThrows(IllegalArgumentException.class, () -> userService.createUser(userDTO));
 
 		assertEquals("Username already exists", ex.getMessage());
 	}
 
 	@Test
 	void testGetAllUsers() {
-		List<User> users = List.of(new User(), new User());
-		List<UserDTO> userDTOs = List.of(new UserDTO(), new UserDTO());
+		var users = List.of(new User(), new User());
+		var userDTOs = List.of(new UserDTO(), new UserDTO());
 
 		when(userRepository.findAll()).thenReturn(users);
 		when(userMapper.toDTOList(users)).thenReturn(userDTOs);
 
-		List<UserDTO> result = userService.getAllUsers();
+		var result = userService.getAllUsers();
 		assertEquals(2, result.size());
 	}
 
 	@Test
 	void testGetUserById_Success() {
-		User user = new User();
+		var user = new User();
 		user.setId(1L);
-		UserDTO dto = new UserDTO();
+		var dto = new UserDTO();
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 		when(userMapper.toDTO(user)).thenReturn(dto);
 
-		UserDTO result = userService.getUserById(1L);
+		var result = userService.getUserById(1L);
 		assertNotNull(result);
 	}
 
@@ -129,7 +128,7 @@ class UserServiceTestImplTest {
 		userDTO.setEmail("new@example.com");
 		userDTO.setRole(Role.ADMIN);
 
-		User updatedUser = new User();
+		var updatedUser = new User();
 		updatedUser.setId(1L);
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -137,7 +136,7 @@ class UserServiceTestImplTest {
 		when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 		when(userMapper.toDTO(updatedUser)).thenReturn(userDTO);
 
-		UserDTO result = userService.updateUser(1L, userDTO);
+		var result = userService.updateUser(1L, userDTO);
 		assertEquals(userDTO, result);
 	}
 

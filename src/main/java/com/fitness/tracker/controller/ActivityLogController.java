@@ -29,9 +29,8 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Activity Log Management", description = "Manage activity")
 public class ActivityLogController {
 
-	private final IActivityLogService activityLogService;
-
 	private static final Logger LOG = LoggerFactory.getLogger(ActivityLogController.class);
+	private final IActivityLogService activityLogService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

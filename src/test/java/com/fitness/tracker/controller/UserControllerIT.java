@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +103,7 @@ public class UserControllerIT {
 
 		mockMvc.perform(delete("/fitness/users/{id}", savedUser.getId())).andExpect(status().isNoContent());
 
-		Optional<User> deletedUser = userRepository.findById(savedUser.getId());
+		var deletedUser = userRepository.findById(savedUser.getId());
 		assertFalse(deletedUser.isPresent());
 	}
 

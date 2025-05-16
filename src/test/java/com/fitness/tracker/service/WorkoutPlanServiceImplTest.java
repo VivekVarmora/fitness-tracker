@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fitness.tracker.dto.WorkoutPlanDTO;
 import com.fitness.tracker.exception.ResourceNotFoundException;
@@ -73,7 +72,7 @@ class WorkoutPlanServiceImplTest {
         when(workoutPlanRepository.save(workoutPlan)).thenReturn(workoutPlan);
         when(workoutPlanMapper.toDto(workoutPlan)).thenReturn(workoutPlanDTO);
 
-        WorkoutPlanDTO result = workoutPlanService.createWorkoutPlan(workoutPlanDTO);
+        var result = workoutPlanService.createWorkoutPlan(workoutPlanDTO);
 
         assertEquals(workoutPlanDTO.getName(), result.getName());
         verify(workoutPlanRepository).save(workoutPlan);
@@ -82,7 +81,7 @@ class WorkoutPlanServiceImplTest {
 	@Test
 	void testCreateWorkoutPlan_UserIdMissing() {
 		workoutPlanDTO.setUserId(null);
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+		var ex = assertThrows(IllegalArgumentException.class, () -> {
 			workoutPlanService.createWorkoutPlan(workoutPlanDTO);
 		});
 		assertEquals("User ID is required to create a workout plan.", ex.getMessage());
@@ -103,7 +102,7 @@ class WorkoutPlanServiceImplTest {
         when(workoutPlanRepository.findByUserId(1L)).thenReturn(List.of(workoutPlan));
         when(workoutPlanMapper.toDTOList(List.of(workoutPlan))).thenReturn(List.of(workoutPlanDTO));
 
-        List<WorkoutPlanDTO> result = workoutPlanService.getWorkoutPlansByUser(1L);
+        var result = workoutPlanService.getWorkoutPlansByUser(1L);
 
         assertEquals(1, result.size());
         assertEquals(workoutPlanDTO.getName(), result.get(0).getName());
@@ -115,7 +114,7 @@ class WorkoutPlanServiceImplTest {
         when(workoutPlanRepository.save(workoutPlan)).thenReturn(workoutPlan);
         when(workoutPlanMapper.toDto(workoutPlan)).thenReturn(workoutPlanDTO);
 
-        WorkoutPlanDTO result = workoutPlanService.updateWorkoutPlan(1L, workoutPlanDTO);
+        var result = workoutPlanService.updateWorkoutPlan(1L, workoutPlanDTO);
 
         assertEquals(workoutPlanDTO.getName(), result.getName());
         verify(workoutPlanRepository).save(workoutPlan);

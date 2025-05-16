@@ -47,13 +47,12 @@ public class WorkoutPlanControllerIT {
 	@Autowired
 	private WorkoutPlanRepository workoutPlanRepository;
 
-	private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper = new ObjectMapper();
 	private User testUser;
 	private WorkoutPlanDTO testWorkoutPlanDTO;
 
 	@BeforeEach
 	public void setup() {
-		objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());
 
 		// Create test user
@@ -76,7 +75,7 @@ public class WorkoutPlanControllerIT {
 	@Test
 	@WithMockUser(roles = "USER")
 	public void testCreateWorkoutPlan() throws Exception {
-		String content = objectMapper.writeValueAsString(testWorkoutPlanDTO);
+		var content = objectMapper.writeValueAsString(testWorkoutPlanDTO);
 
 		mockMvc.perform(post("/fitness/workout-plans").contentType(MediaType.APPLICATION_JSON).content(content))
 				.andExpect(status().isCreated()).andExpect(jsonPath("$.name", is(testWorkoutPlanDTO.getName())))
@@ -89,7 +88,7 @@ public class WorkoutPlanControllerIT {
 	@WithMockUser(roles = "USER")
 	public void testGetWorkoutPlansByUser() throws Exception {
 		// Create and save workout plans for the test user
-		WorkoutPlan plan1 = new WorkoutPlan();
+		var plan1 = new WorkoutPlan();
 		plan1.setUser(testUser);
 		plan1.setName("Plan 1");
 		plan1.setDescription("Description 1");
@@ -97,7 +96,7 @@ public class WorkoutPlanControllerIT {
 		plan1.setEndDate(LocalDate.now().plusDays(14));
 		workoutPlanRepository.save(plan1);
 
-		WorkoutPlan plan2 = new WorkoutPlan();
+		var plan2 = new WorkoutPlan();
 		plan2.setUser(testUser);
 		plan2.setName("Plan 2");
 		plan2.setDescription("Description 2");
@@ -114,7 +113,7 @@ public class WorkoutPlanControllerIT {
 	@WithMockUser(roles = "USER")
 	public void testUpdateWorkoutPlan() throws Exception {
 		// Create and save workout plan
-		WorkoutPlan plan = new WorkoutPlan();
+		var plan = new WorkoutPlan();
 		plan.setUser(testUser);
 		plan.setName("Original Plan");
 		plan.setDescription("Original Description");
@@ -123,14 +122,14 @@ public class WorkoutPlanControllerIT {
 		plan = workoutPlanRepository.save(plan);
 
 		// Create updated DTO
-		WorkoutPlanDTO updateDTO = new WorkoutPlanDTO();
+		var updateDTO = new WorkoutPlanDTO();
 		updateDTO.setName("Updated Plan");
 		updateDTO.setDescription("Updated Description");
 		updateDTO.setStartDate(LocalDate.now().plusDays(1));
 		updateDTO.setEndDate(LocalDate.now().plusDays(15));
 		updateDTO.setUserId(testUser.getId());
 
-		String content = objectMapper.writeValueAsString(updateDTO);
+		var content = objectMapper.writeValueAsString(updateDTO);
 
 		mockMvc.perform(put("/fitness/workout-plans/{id}", plan.getId()).contentType(MediaType.APPLICATION_JSON)
 				.content(content)).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(plan.getId().intValue())))
@@ -141,8 +140,7 @@ public class WorkoutPlanControllerIT {
 	@Test
 	@WithMockUser(roles = "USER")
 	public void testDeleteWorkoutPlan() throws Exception {
-		// Create and save workout plan
-		WorkoutPlan plan = new WorkoutPlan();
+		var plan = new WorkoutPlan();
 		plan.setUser(testUser);
 		plan.setName("Plan to Delete");
 		plan.setDescription("Description");
@@ -152,7 +150,6 @@ public class WorkoutPlanControllerIT {
 
 		mockMvc.perform(delete("/fitness/workout-plans/{id}", plan.getId())).andExpect(status().isNoContent());
 
-		// Verify plan is deleted
 		mockMvc.perform(get("/fitness/workout-plans/user/{userId}", testUser.getId())).andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(0)));
 	}
@@ -160,14 +157,12 @@ public class WorkoutPlanControllerIT {
 	@Test
 	@WithMockUser(roles = "USER")
 	public void testCreateWorkoutPlanWithInvalidData() throws Exception {
-		// Missing required fields
-		WorkoutPlanDTO invalidDTO = new WorkoutPlanDTO();
-		// No name, no dates
+		var invalidDTO = new WorkoutPlanDTO();
 		invalidDTO.setName("plan1");
 		invalidDTO.setDescription("plan1 desc");
 		invalidDTO.setDescription("Invalid Plan");
 
-		String content = objectMapper.writeValueAsString(invalidDTO);
+		var content = objectMapper.writeValueAsString(invalidDTO);
 
 		mockMvc.perform(post("/fitness/workout-plans").contentType(MediaType.APPLICATION_JSON).content(content))
 				.andExpect(status().isBadRequest());
@@ -176,7 +171,6 @@ public class WorkoutPlanControllerIT {
 	@Test
 	@WithMockUser(roles = "USER")
 	public void testCreateWorkoutPlanWithNonExistentUser() throws Exception {
-		// Set a non-existent user ID
 		testWorkoutPlanDTO.setUserId(999999L);
 
 		String content = objectMapper.writeValueAsString(testWorkoutPlanDTO);
@@ -188,7 +182,7 @@ public class WorkoutPlanControllerIT {
 	@Test
 	@WithMockUser(roles = "USER")
 	public void testUpdateNonExistentWorkoutPlan() throws Exception {
-		String content = objectMapper.writeValueAsString(testWorkoutPlanDTO);
+		var content = objectMapper.writeValueAsString(testWorkoutPlanDTO);
 
 		mockMvc.perform(
 				put("/fitness/workout-plans/{id}", 99999L).contentType(MediaType.APPLICATION_JSON).content(content))
@@ -203,7 +197,6 @@ public class WorkoutPlanControllerIT {
 
 	@Test
 	public void testUnauthorizedAccess() throws Exception {
-		// Without authentication
 		mockMvc.perform(get("/fitness/workout-plans/user/{userId}", testUser.getId()))
 				.andExpect(status().isUnauthorized());
 	}

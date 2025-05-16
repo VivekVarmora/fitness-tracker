@@ -80,7 +80,7 @@ class ActivityLogServiceImplTest {
         when(activityLogRepository.save(entity)).thenReturn(entity);
         when(activityLogMapper.toDto(entity)).thenReturn(dto);
 
-        ActivityLogDTO result = activityLogService.logActivity(dto);
+        var result = activityLogService.logActivity(dto);
 
         assertNotNull(result);
         assertEquals(dto.getActivity(), result.getActivity());
@@ -89,16 +89,14 @@ class ActivityLogServiceImplTest {
 
 	@Test
 	void testLogActivity_nullInput() {
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.logActivity(null));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.logActivity(null));
 		assertEquals("Activity details cannot be null", ex.getMessage());
 	}
 
 	@Test
 	void testLogActivity_missingWorkoutPlanId() {
 		dto.setWorkoutPlanId(null);
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.logActivity(dto));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.logActivity(dto));
 		assertEquals("Workout plan is required", ex.getMessage());
 	}
 
@@ -106,7 +104,7 @@ class ActivityLogServiceImplTest {
     void testLogActivity_invalidWorkoutPlanId() {
         when(workoutPlanRepository.findById(10L)).thenReturn(Optional.empty());
 
-        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class,
+        var ex = assertThrows(ResourceNotFoundException.class,
                 () -> activityLogService.logActivity(dto));
         assertEquals("Invalid workout plan ID: 10", ex.getMessage());
     }
@@ -116,14 +114,13 @@ class ActivityLogServiceImplTest {
         when(activityLogRepository.findByUserId(99L)).thenReturn(List.of(entity));
         when(activityLogMapper.toDTOList(anyList())).thenReturn(List.of(dto));
 
-        List<ActivityLogDTO> results = activityLogService.getActivitiesByUser(99L);
+        var results = activityLogService.getActivitiesByUser(99L);
         assertEquals(1, results.size());
     }
 
 	@Test
 	void testGetActivitiesByUser_invalidUserId() {
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.getActivitiesByUser(-1L));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.getActivitiesByUser(-1L));
 		assertEquals("Invalid user ID", ex.getMessage());
 	}
 
@@ -133,22 +130,20 @@ class ActivityLogServiceImplTest {
         when(activityLogRepository.save(entity)).thenReturn(entity);
         when(activityLogMapper.toDto(entity)).thenReturn(dto);
 
-        ActivityLogDTO result = activityLogService.updateActivityLog(1L, dto);
+        var result = activityLogService.updateActivityLog(1L, dto);
 
         assertEquals(dto.getActivity(), result.getActivity());
     }
 
 	@Test
 	void testUpdateActivityLog_invalidId() {
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.updateActivityLog(-5L, dto));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.updateActivityLog(-5L, dto));
 		assertEquals("Activity ID must be a positive number", ex.getMessage());
 	}
 
 	@Test
 	void testUpdateActivityLog_nullDetails() {
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.updateActivityLog(1L, null));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.updateActivityLog(1L, null));
 		assertEquals("Activity details cannot be null", ex.getMessage());
 	}
 
@@ -156,7 +151,7 @@ class ActivityLogServiceImplTest {
     void testUpdateActivityLog_notFound() {
         when(activityLogRepository.findById(1L)).thenReturn(Optional.empty());
 
-        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class,
+        var ex = assertThrows(ResourceNotFoundException.class,
                 () -> activityLogService.updateActivityLog(1L, dto));
         assertEquals("Activity log not found for ID: 1", ex.getMessage());
     }
@@ -171,8 +166,7 @@ class ActivityLogServiceImplTest {
 
 	@Test
 	void testDeleteActivityLog_invalidId() {
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> activityLogService.deleteActivityLog(0L));
+		var ex = assertThrows(IllegalArgumentException.class, () -> activityLogService.deleteActivityLog(0L));
 		assertEquals("Activity ID must be a positive number", ex.getMessage());
 	}
 
@@ -180,7 +174,7 @@ class ActivityLogServiceImplTest {
     void testDeleteActivityLog_notFound() {
         when(activityLogRepository.existsById(1L)).thenReturn(false);
 
-        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class,
+        var ex = assertThrows(ResourceNotFoundException.class,
                 () -> activityLogService.deleteActivityLog(1L));
         assertEquals("Activity log not found for ID: 1", ex.getMessage());
     }

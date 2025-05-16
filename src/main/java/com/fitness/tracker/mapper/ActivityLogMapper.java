@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import com.fitness.tracker.dto.ActivityLogDTO;
 import com.fitness.tracker.model.ActivityLog;
 
-@Mapper(componentModel = "spring", uses = { UserMapper.class, WorkoutPlanMapper.class })
+@Mapper(componentModel = "spring", uses = { WorkoutPlanMapper.class })
 public interface ActivityLogMapper {
 
 	@Mapping(source = "user.id", target = "userId")
