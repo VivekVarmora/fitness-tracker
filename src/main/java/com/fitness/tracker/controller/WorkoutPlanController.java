@@ -2,6 +2,8 @@ package com.fitness.tracker.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,18 +29,21 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Workout Plan Management", description = "Manage workout plans")
 public class WorkoutPlanController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(WorkoutPlanController.class);
 	private final IWorkoutPlanService workoutPlanService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Create a new workout plan")
 	public WorkoutPlanDTO createWorkoutPlan(@Valid @RequestBody WorkoutPlanDTO workoutPlan) {
+		LOG.debug("Request received to create workout plan: {}", workoutPlan);
 		return workoutPlanService.createWorkoutPlan(workoutPlan);
 	}
 
 	@GetMapping("/user/{userId}")
 	@Operation(summary = "Get workout plans by user")
 	public List<WorkoutPlanDTO> getWorkoutPlansByUser(@PathVariable Long userId) {
+		LOG.debug("Request received to get workout plans for userId={}", userId);
 		return workoutPlanService.getWorkoutPlansByUser(userId);
 	}
 
@@ -46,6 +51,7 @@ public class WorkoutPlanController {
 	@Operation(summary = "Update workout plan")
 	public WorkoutPlanDTO updateWorkoutPlan(@PathVariable Long id,
 			@Valid @RequestBody WorkoutPlanDTO workoutPlanDetails) {
+		LOG.debug("Request received to update workout plan ID={} with details: {}", id, workoutPlanDetails);
 		return workoutPlanService.updateWorkoutPlan(id, workoutPlanDetails);
 	}
 
@@ -53,6 +59,7 @@ public class WorkoutPlanController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Operation(summary = "Delete workout plan")
 	public void deleteWorkoutPlan(@PathVariable Long id) {
+		LOG.debug("Request received to delete workout plan ID={}", id);
 		workoutPlanService.deleteWorkoutPlan(id);
 	}
 }

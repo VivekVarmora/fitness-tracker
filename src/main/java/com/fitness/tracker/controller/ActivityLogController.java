@@ -2,6 +2,8 @@ package com.fitness.tracker.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,22 +31,27 @@ public class ActivityLogController {
 
 	private final IActivityLogService activityLogService;
 
+	private static final Logger LOG = LoggerFactory.getLogger(ActivityLogController.class);
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "Log a new activity")
 	public ActivityLogDTO logActivity(@Valid @RequestBody ActivityLogDTO activityLog) {
+		LOG.info("Received request to log activity: {}", activityLog);
 		return activityLogService.logActivity(activityLog);
 	}
 
 	@GetMapping("/user/{userId}")
 	@Operation(summary = "Get activities by user")
 	public List<ActivityLogDTO> getActivitiesByUser(@PathVariable Long userId) {
+		LOG.info("Fetching activities for user: {}", userId);
 		return activityLogService.getActivitiesByUser(userId);
 	}
 
 	@PutMapping("/{id}")
 	@Operation(summary = "Update activity log")
 	public ActivityLogDTO updateActivityLog(@PathVariable Long id, @Valid @RequestBody ActivityLogDTO activityDetails) {
+		LOG.info("Updating activity log ID {} with data {}", id, activityDetails);
 		return activityLogService.updateActivityLog(id, activityDetails);
 	}
 
@@ -52,6 +59,7 @@ public class ActivityLogController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Operation(summary = "Delete activity log")
 	public void deleteActivityLog(@PathVariable Long id) {
+		LOG.info("Deleting activity log with ID: {}", id);
 		activityLogService.deleteActivityLog(id);
 	}
 }

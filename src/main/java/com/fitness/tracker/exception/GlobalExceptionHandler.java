@@ -21,17 +21,18 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+	public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
 
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> handleException(Exception ex) {
+	public ResponseEntity<String> handleGeneral(Exception ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
 	}
+
 }
