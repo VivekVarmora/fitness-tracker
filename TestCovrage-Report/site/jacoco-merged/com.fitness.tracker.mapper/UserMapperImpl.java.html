@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tracker</a> &gt; <a href="index.source.html" class="el_package">com.fitness.tracker.mapper</a> &gt; <span class="el_source">UserMapperImpl.java</span></div><h1>UserMapperImpl.java</h1><pre class="source lang-java linenums">package com.fitness.tracker.mapper;
+
+import com.fitness.tracker.dto.ActivityLogDTO;
+import com.fitness.tracker.dto.UserDTO;
+import com.fitness.tracker.dto.WorkoutPlanDTO;
+import com.fitness.tracker.model.ActivityLog;
+import com.fitness.tracker.model.User;
+import com.fitness.tracker.model.WorkoutPlan;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2025-05-16T18:39:36+0530&quot;,
+    comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 17.0.15 (Ubuntu)&quot;
+)
+@Component
+<span class="fc" id="L20">public class UserMapperImpl implements UserMapper {</span>
+
+    @Override
+    public UserDTO toDTO(User user) {
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if ( user == null ) {</span>
+<span class="nc" id="L25">            return null;</span>
+        }
+
+<span class="fc" id="L28">        UserDTO.UserDTOBuilder userDTO = UserDTO.builder();</span>
+
+<span class="fc" id="L30">        userDTO.id( user.getId() );</span>
+<span class="fc" id="L31">        userDTO.username( user.getUsername() );</span>
+<span class="fc" id="L32">        userDTO.password( user.getPassword() );</span>
+<span class="fc" id="L33">        userDTO.email( user.getEmail() );</span>
+<span class="fc" id="L34">        userDTO.role( user.getRole() );</span>
+<span class="fc" id="L35">        userDTO.workoutPlans( workoutPlanListToWorkoutPlanDTOList( user.getWorkoutPlans() ) );</span>
+
+<span class="fc" id="L37">        return userDTO.build();</span>
+    }
+
+    @Override
+    public User toEntity(UserDTO dto) {
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L43">            return null;</span>
+        }
+
+<span class="fc" id="L46">        User.UserBuilder user = User.builder();</span>
+
+<span class="fc" id="L48">        user.id( dto.getId() );</span>
+<span class="fc" id="L49">        user.username( dto.getUsername() );</span>
+<span class="fc" id="L50">        user.password( dto.getPassword() );</span>
+<span class="fc" id="L51">        user.email( dto.getEmail() );</span>
+<span class="fc" id="L52">        user.role( dto.getRole() );</span>
+<span class="fc" id="L53">        user.workoutPlans( workoutPlanDTOListToWorkoutPlanList( dto.getWorkoutPlans() ) );</span>
+
+<span class="fc" id="L55">        return user.build();</span>
+    }
+
+    @Override
+    public List&lt;UserDTO&gt; toDTOList(List&lt;User&gt; users) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if ( users == null ) {</span>
+<span class="nc" id="L61">            return null;</span>
+        }
+
+<span class="fc" id="L64">        List&lt;UserDTO&gt; list = new ArrayList&lt;UserDTO&gt;( users.size() );</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for ( User user : users ) {</span>
+<span class="fc" id="L66">            list.add( toDTO( user ) );</span>
+<span class="fc" id="L67">        }</span>
+
+<span class="fc" id="L69">        return list;</span>
+    }
+
+    protected ActivityLogDTO activityLogToActivityLogDTO(ActivityLog activityLog) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if ( activityLog == null ) {</span>
+<span class="nc" id="L74">            return null;</span>
+        }
+
+<span class="nc" id="L77">        ActivityLogDTO.ActivityLogDTOBuilder activityLogDTO = ActivityLogDTO.builder();</span>
+
+<span class="nc" id="L79">        activityLogDTO.id( activityLog.getId() );</span>
+<span class="nc" id="L80">        activityLogDTO.date( activityLog.getDate() );</span>
+<span class="nc" id="L81">        activityLogDTO.activity( activityLog.getActivity() );</span>
+<span class="nc" id="L82">        activityLogDTO.durationMin( activityLog.getDurationMin() );</span>
+<span class="nc" id="L83">        activityLogDTO.caloriesBurned( activityLog.getCaloriesBurned() );</span>
+
+<span class="nc" id="L85">        return activityLogDTO.build();</span>
+    }
+
+    protected List&lt;ActivityLogDTO&gt; activityLogListToActivityLogDTOList(List&lt;ActivityLog&gt; list) {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if ( list == null ) {</span>
+<span class="nc" id="L90">            return null;</span>
+        }
+
+<span class="nc" id="L93">        List&lt;ActivityLogDTO&gt; list1 = new ArrayList&lt;ActivityLogDTO&gt;( list.size() );</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for ( ActivityLog activityLog : list ) {</span>
+<span class="nc" id="L95">            list1.add( activityLogToActivityLogDTO( activityLog ) );</span>
+<span class="nc" id="L96">        }</span>
+
+<span class="nc" id="L98">        return list1;</span>
+    }
+
+    protected WorkoutPlanDTO workoutPlanToWorkoutPlanDTO(WorkoutPlan workoutPlan) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if ( workoutPlan == null ) {</span>
+<span class="nc" id="L103">            return null;</span>
+        }
+
+<span class="nc" id="L106">        WorkoutPlanDTO.WorkoutPlanDTOBuilder workoutPlanDTO = WorkoutPlanDTO.builder();</span>
+
+<span class="nc" id="L108">        workoutPlanDTO.id( workoutPlan.getId() );</span>
+<span class="nc" id="L109">        workoutPlanDTO.name( workoutPlan.getName() );</span>
+<span class="nc" id="L110">        workoutPlanDTO.description( workoutPlan.getDescription() );</span>
+<span class="nc" id="L111">        workoutPlanDTO.startDate( workoutPlan.getStartDate() );</span>
+<span class="nc" id="L112">        workoutPlanDTO.endDate( workoutPlan.getEndDate() );</span>
+<span class="nc" id="L113">        workoutPlanDTO.activityLogs( activityLogListToActivityLogDTOList( workoutPlan.getActivityLogs() ) );</span>
+
+<span class="nc" id="L115">        return workoutPlanDTO.build();</span>
+    }
+
+    protected List&lt;WorkoutPlanDTO&gt; workoutPlanListToWorkoutPlanDTOList(List&lt;WorkoutPlan&gt; list) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if ( list == null ) {</span>
+<span class="fc" id="L120">            return null;</span>
+        }
+
+<span class="fc" id="L123">        List&lt;WorkoutPlanDTO&gt; list1 = new ArrayList&lt;WorkoutPlanDTO&gt;( list.size() );</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        for ( WorkoutPlan workoutPlan : list ) {</span>
+<span class="nc" id="L125">            list1.add( workoutPlanToWorkoutPlanDTO( workoutPlan ) );</span>
+<span class="nc" id="L126">        }</span>
+
+<span class="fc" id="L128">        return list1;</span>
+    }
+
+    protected ActivityLog activityLogDTOToActivityLog(ActivityLogDTO activityLogDTO) {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if ( activityLogDTO == null ) {</span>
+<span class="nc" id="L133">            return null;</span>
+        }
+
+<span class="nc" id="L136">        ActivityLog.ActivityLogBuilder activityLog = ActivityLog.builder();</span>
+
+<span class="nc" id="L138">        activityLog.id( activityLogDTO.getId() );</span>
+<span class="nc" id="L139">        activityLog.date( activityLogDTO.getDate() );</span>
+<span class="nc" id="L140">        activityLog.activity( activityLogDTO.getActivity() );</span>
+<span class="nc" id="L141">        activityLog.durationMin( activityLogDTO.getDurationMin() );</span>
+<span class="nc" id="L142">        activityLog.caloriesBurned( activityLogDTO.getCaloriesBurned() );</span>
+
+<span class="nc" id="L144">        return activityLog.build();</span>
+    }
+
+    protected List&lt;ActivityLog&gt; activityLogDTOListToActivityLogList(List&lt;ActivityLogDTO&gt; list) {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if ( list == null ) {</span>
+<span class="nc" id="L149">            return null;</span>
+        }
+
+<span class="nc" id="L152">        List&lt;ActivityLog&gt; list1 = new ArrayList&lt;ActivityLog&gt;( list.size() );</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        for ( ActivityLogDTO activityLogDTO : list ) {</span>
+<span class="nc" id="L154">            list1.add( activityLogDTOToActivityLog( activityLogDTO ) );</span>
+<span class="nc" id="L155">        }</span>
+
+<span class="nc" id="L157">        return list1;</span>
+    }
+
+    protected WorkoutPlan workoutPlanDTOToWorkoutPlan(WorkoutPlanDTO workoutPlanDTO) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if ( workoutPlanDTO == null ) {</span>
+<span class="nc" id="L162">            return null;</span>
+        }
+
+<span class="nc" id="L165">        WorkoutPlan.WorkoutPlanBuilder workoutPlan = WorkoutPlan.builder();</span>
+
+<span class="nc" id="L167">        workoutPlan.id( workoutPlanDTO.getId() );</span>
+<span class="nc" id="L168">        workoutPlan.name( workoutPlanDTO.getName() );</span>
+<span class="nc" id="L169">        workoutPlan.description( workoutPlanDTO.getDescription() );</span>
+<span class="nc" id="L170">        workoutPlan.startDate( workoutPlanDTO.getStartDate() );</span>
+<span class="nc" id="L171">        workoutPlan.endDate( workoutPlanDTO.getEndDate() );</span>
+<span class="nc" id="L172">        workoutPlan.activityLogs( activityLogDTOListToActivityLogList( workoutPlanDTO.getActivityLogs() ) );</span>
+
+<span class="nc" id="L174">        return workoutPlan.build();</span>
+    }
+
+    protected List&lt;WorkoutPlan&gt; workoutPlanDTOListToWorkoutPlanList(List&lt;WorkoutPlanDTO&gt; list) {
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if ( list == null ) {</span>
+<span class="fc" id="L179">            return null;</span>
+        }
+
+<span class="nc" id="L182">        List&lt;WorkoutPlan&gt; list1 = new ArrayList&lt;WorkoutPlan&gt;( list.size() );</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        for ( WorkoutPlanDTO workoutPlanDTO : list ) {</span>
+<span class="nc" id="L184">            list1.add( workoutPlanDTOToWorkoutPlan( workoutPlanDTO ) );</span>
+<span class="nc" id="L185">        }</span>
+
+<span class="nc" id="L187">        return list1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
