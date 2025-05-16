@@ -33,7 +33,6 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Schema(hidden = true)
 	private Long id;
 
 	@NotBlank(message = "Username is required")
@@ -51,6 +50,5 @@ public class User {
 	private Role role;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	// @Schema(hidden = true)
 	private List<WorkoutPlan> workoutPlans;
 }

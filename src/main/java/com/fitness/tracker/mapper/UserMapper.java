@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import com.fitness.tracker.dto.UserDTO;
 import com.fitness.tracker.model.User;
 
-@Mapper(componentModel = "spring", uses = { WorkoutPlanMapper.class })
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
 	UserDTO toDTO(User user);

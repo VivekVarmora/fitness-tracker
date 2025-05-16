@@ -14,13 +14,6 @@ public class SwaggerConfig {
 
 	@Bean
 	public OpenAPI customOpenAPI() {
-//		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("basicAuth"))
-//				.components(new Components().addSecuritySchemes("basicAuth",
-//						new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic").in(SecurityScheme.In.HEADER)
-//								.name("Authorization")))
-//				.info(new Info().title("Fitness Tracker API").version("1.0")
-//						.description("API documentation for the Fitness Tracker System"));
-
 		return new OpenAPI()
 				.components(new Components().addSecuritySchemes("basicAuth",
 						new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))

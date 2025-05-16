@@ -29,7 +29,6 @@ public class ActivityLog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(hidden = true)
 	private Long id;
 
 	@ManyToOne

@@ -2,7 +2,6 @@ package com.fitness.tracker.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +19,15 @@ import com.fitness.tracker.service.IActivityLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/fitness/activity")
+@RequiredArgsConstructor
 @Tag(name = "Activity Log Management", description = "Manage activity")
 public class ActivityLogController {
 
-	@Autowired
-	private IActivityLogService activityLogService;
+	private final IActivityLogService activityLogService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)

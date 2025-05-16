@@ -2,7 +2,6 @@ package com.fitness.tracker.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,18 +10,16 @@ import com.fitness.tracker.mapper.WorkoutPlanMapper;
 import com.fitness.tracker.repository.UserRepository;
 import com.fitness.tracker.repository.WorkoutPlanRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class WorkoutPlanServiceImpl implements IWorkoutPlanService {
 
-	@Autowired
-	private WorkoutPlanRepository workoutPlanRepository;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private WorkoutPlanMapper workoutPlanMapper;
+	private final WorkoutPlanRepository workoutPlanRepository;
+	private final UserRepository userRepository;
+	private final WorkoutPlanMapper workoutPlanMapper;
 
 	@Override
 	public WorkoutPlanDTO createWorkoutPlan(WorkoutPlanDTO workoutPlan) {

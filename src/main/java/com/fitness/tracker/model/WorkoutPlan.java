@@ -3,7 +3,6 @@ package com.fitness.tracker.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +30,6 @@ public class WorkoutPlan {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(hidden = true)
 	private Long id;
 
 	@ManyToOne
@@ -55,7 +53,6 @@ public class WorkoutPlan {
 	private LocalDate endDate;
 
 	@OneToMany(mappedBy = "workoutPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-	@Schema(hidden = true)
 	private List<ActivityLog> activityLogs;
 
 }

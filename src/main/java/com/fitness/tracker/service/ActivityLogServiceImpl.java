@@ -2,32 +2,25 @@ package com.fitness.tracker.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fitness.tracker.dto.ActivityLogDTO;
-import com.fitness.tracker.exception.ApplicationException;
+import com.fitness.tracker.exception.NotFoundException;
 import com.fitness.tracker.mapper.ActivityLogMapper;
 import com.fitness.tracker.repository.ActivityLogRepository;
-import com.fitness.tracker.repository.UserRepository;
 import com.fitness.tracker.repository.WorkoutPlanRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ActivityLogServiceImpl implements IActivityLogService {
 
-	@Autowired
-	private ActivityLogRepository activityLogRepository;
-
-	@Autowired
-	private ActivityLogMapper activityLogMapper;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private WorkoutPlanRepository workoutPlanRepository;
+	private final ActivityLogRepository activityLogRepository;
+	private final ActivityLogMapper activityLogMapper;
+	private final WorkoutPlanRepository workoutPlanRepository;
 
 	@Override
 	public ActivityLogDTO logActivity(ActivityLogDTO activityLog) {
@@ -56,7 +49,7 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 	@Override
 	public ActivityLogDTO updateActivityLog(Long id, ActivityLogDTO activityDetails) {
 		var activityLog = activityLogRepository.findById(id)
-				.orElseThrow(() -> new ApplicationException("Activity log not found"));
+				.orElseThrow(() -> new NotFoundException("Activity log not found"));
 		activityLog.setDate(activityDetails.getDate());
 		activityLog.setActivity(activityDetails.getActivity());
 		activityLog.setDurationMin(activityDetails.getDurationMin());
