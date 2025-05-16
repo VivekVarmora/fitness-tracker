@@ -30,8 +30,8 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 	public ActivityLogDTO logActivity(ActivityLogDTO activityLog) {
 		LOG.info("Logging new activity: {}", activityLog);
 
-		if (activityLog == null) {
-			LOG.error("ActivityLogDTO is null");
+		if (activityLog == null || activityLog.getActivity() == null) {
+			LOG.error("Activity is null");
 			throw new IllegalArgumentException("Activity details cannot be null");
 		}
 
@@ -59,7 +59,7 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 	public List<ActivityLogDTO> getActivitiesByUser(Long userId) {
 		LOG.info("Fetching activities for userId: {}", userId);
 
-		if (isIdValid(userId)) {
+		if (isIdInvalid(userId)) {
 			LOG.error("Invalid userId: {}", userId);
 			throw new IllegalArgumentException("Invalid user ID");
 		}
@@ -71,7 +71,7 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 	public ActivityLogDTO updateActivityLog(Long id, ActivityLogDTO activityDetails) {
 		LOG.info("Updating activity log with ID: {}", id);
 
-		if (isIdValid(id)) {
+		if (isIdInvalid(id)) {
 			LOG.error("Invalid activity ID: {}", id);
 			throw new IllegalArgumentException("Activity ID must be a positive number");
 		}
@@ -101,7 +101,7 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 	public void deleteActivityLog(Long id) {
 		LOG.info("Deleting activity log with ID: {}", id);
 
-		if (isIdValid(id)) {
+		if (isIdInvalid(id)) {
 			LOG.error("Invalid activity ID for deletion: {}", id);
 			throw new IllegalArgumentException("Activity ID must be a positive number");
 		}
@@ -116,7 +116,7 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 		LOG.info("Activity log deleted successfully: {}", id);
 	}
 
-	private boolean isIdValid(Long id) {
-		return id != null && id > 0;
+	private boolean isIdInvalid(Long id) {
+		return id == null || id <= 0;
 	}
 }
