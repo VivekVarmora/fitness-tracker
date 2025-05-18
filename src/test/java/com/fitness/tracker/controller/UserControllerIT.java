@@ -69,7 +69,7 @@ public class UserControllerIT {
 	}
 
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "USER")
 	public void testGetUserById() throws Exception {
 		var savedUser = createTestUser("testuser", "test@example.com", Role.USER);
 
@@ -79,7 +79,7 @@ public class UserControllerIT {
 	}
 
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "USER")
 	public void testUpdateUser() throws Exception {
 		var savedUser = createTestUser("oldusername", "old@example.com", Role.USER);
 
@@ -96,7 +96,7 @@ public class UserControllerIT {
 	}
 
 	@Test
-	@WithMockUser(roles = "ADMIN")
+	@WithMockUser(roles = "USER")
 	public void testDeleteUser() throws Exception {
 		var savedUser = createTestUser("userToDelete", "delete@example.com", Role.USER);
 

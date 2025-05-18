@@ -1,7 +1,5 @@
 package com.fitness.tracker.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fitness.tracker.model.User.Role;
 
@@ -27,9 +25,7 @@ public class UserDTO {
 
 	private String email;
 
+	@Schema(description = "User role (e.g., ADMIN or USER)")
 	private Role role;
 
-	@Schema(hidden = true)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private List<WorkoutPlanDTO> workoutPlans;
 }

@@ -106,10 +106,14 @@ public class ActivityLogServiceImpl implements IActivityLogService {
 			throw new IllegalArgumentException("Activity ID must be a positive number");
 		}
 
-		boolean exists = activityLogRepository.existsById(id);
-		if (!exists) {
-			LOG.error("Activity log not found for deletion, ID: {}", id);
-			throw new ResourceNotFoundException("Activity log not found for ID: " + id);
+		var activityLog = activityLogRepository.findById(id).orElseThrow(() -> {
+			LOG.error("Activity log not found for ID: {}", id);
+			return new ResourceNotFoundException("Activity log not found for ID: " + id);
+		});
+
+		var workoutPlan = activityLog.getWorkoutPlan();
+		if (workoutPlan != null && workoutPlan.getActivityLogs() != null) {
+			workoutPlan.getActivityLogs().remove(activityLog);
 		}
 
 		activityLogRepository.deleteById(id);

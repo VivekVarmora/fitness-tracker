@@ -72,12 +72,12 @@ public class WorkoutPlanServiceImpl implements IWorkoutPlanService {
 	public void deleteWorkoutPlan(Long id) {
 		LOG.info("Deleting workout plan with ID={}", id);
 
-		if (!workoutPlanRepository.existsById(id)) {
+		var workoutPlan = workoutPlanRepository.findById(id).orElseThrow(() -> {
 			LOG.warn("Attempted to delete non-existent workout plan with ID={}", id);
-			throw new ResourceNotFoundException("Workout plan with ID " + id + " does not exist.");
-		}
+			return new ResourceNotFoundException("Workout plan with ID " + id + " does not exist.");
+		});
 
-		workoutPlanRepository.deleteById(id);
+		workoutPlanRepository.delete(workoutPlan);
 		LOG.info("Workout plan deleted with ID={}", id);
 	}
 }

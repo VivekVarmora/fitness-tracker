@@ -130,13 +130,13 @@ class WorkoutPlanServiceImplTest {
     }
 
 	@Test
-    void testDeleteWorkoutPlan_Success() {
-        when(workoutPlanRepository.existsById(1L)).thenReturn(true);
+	void testDeleteWorkoutPlan_Success() {
+	    when(workoutPlanRepository.findById(1L)).thenReturn(Optional.of(workoutPlan));
 
-        workoutPlanService.deleteWorkoutPlan(1L);
+	    workoutPlanService.deleteWorkoutPlan(1L);
 
-        verify(workoutPlanRepository).deleteById(1L);
-    }
+	    verify(workoutPlanRepository).delete(workoutPlan);
+	}
 
 	@Test
     void testDeleteWorkoutPlan_NotFound() {

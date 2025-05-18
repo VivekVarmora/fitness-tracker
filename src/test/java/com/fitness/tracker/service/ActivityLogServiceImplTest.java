@@ -157,12 +157,15 @@ class ActivityLogServiceImplTest {
     }
 
 	@Test
-    void testDeleteActivityLog_success() {
-        when(activityLogRepository.existsById(1L)).thenReturn(true);
+	void testDeleteActivityLog_success() {
+		var mockActivityLog = new ActivityLog();
+		mockActivityLog.setId(1L);
+		mockActivityLog.setWorkoutPlan(new WorkoutPlan());
 
-        assertDoesNotThrow(() -> activityLogService.deleteActivityLog(1L));
-        verify(activityLogRepository).deleteById(1L);
-    }
+		when(activityLogRepository.findById(1L)).thenReturn(Optional.of(mockActivityLog));
+		assertDoesNotThrow(() -> activityLogService.deleteActivityLog(1L));
+		verify(activityLogRepository).deleteById(1L);
+	}
 
 	@Test
 	void testDeleteActivityLog_invalidId() {

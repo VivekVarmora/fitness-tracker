@@ -50,6 +50,18 @@ mvn spring-boot:run
 
 ## API Usage Guide
 
+---
+
+## Authentication & Authorization Rules
+
+| Endpoint                        | Access Level                            |
+|----------------------------------|------------------------------------------|
+| `POST /fitness/users`           | Public – No authentication required    |
+| `GET /fitness/users`            | Authenticated – Requires `ADMIN` role |
+| All other endpoints_		        |  Authenticated – Requires `ADMIN` or `USER` role |
+
+---
+
 ### User Endpoints
 
 - `POST fitness/users` – Create a new user  
